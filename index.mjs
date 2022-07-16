@@ -50,29 +50,41 @@ opts.column = Math.ceil(opts.column);
 if (opts.column <= 0) {
     error('Invalid column');
 }
+const grids = opts.row * opts.column;
 
 if (opts.file) {
-    await make(opts.file);
+    const bar = new cliProgress.SingleBar({
+        format: ' {bar} | {value}/{total}',
+    });
+    bar.start(grids, 0);
+    await make(opts.file, bar);
+    bar.stop();
 } else if (opts.directory) {
     const reg = new RegExp(`\.(${opts.ext})$`, 'i');
     const files = fs
         .readdirSync(opts.directory)
         .filter((item) => reg.test(item));
     if (files.length > 0) {
-        const bar = new cliProgress.SingleBar();
-        bar.start(files.length, 0);
+        const bars = new cliProgress.MultiBar({
+            format: ' {bar} | {filename} | {value}/{total}',
+        });
+        const b1 = bars.create(files.length, 0, { filename: 'ALL' });
+        const b2 = bars.create(grids, 0, { filename: '' });
         for (let i = 0; i < files.length; i++) {
             const file = path.resolve(opts.directory, files[i]);
-            await make(file);
-            bar.increment();
+            await make(file, b2, bars);
+            b1.increment();
+            bars.update();
         }
-        bar.stop();
+        bars.stop();
     }
 } else {
     error('Please specify file or directory');
 }
 
-async function make(file) {
+async function make(file, bar, bars) {
+    bar.update(0, { filename: path.basename(file) });
+    bars && bars.update();
     const picDir = fs.mkdtempSync('mvtb');
     try {
         const duration = execSync(
@@ -89,14 +101,19 @@ async function make(file) {
                 ('' + i).padStart(picNumLen, '0') + '.png'
             );
             const ts = sec2str(t);
-            execSync(`ffmpeg -ss ${ts} -i "${file}" -y -f image2 -vframes 1 "${pic}"`, {
-                stdio: 'ignore',
-            });
+            execSync(
+                `ffmpeg -ss ${ts} -i "${file}" -y -f image2 -vframes 1 "${pic}"`,
+                {
+                    stdio: 'ignore',
+                }
+            );
             t += space;
             pics.push({
                 pic,
                 ts,
             });
+            bar.increment();
+            bars && bars.update();
         }
         const dir = path.dirname(file);
         const meta = await sharp(pics[0].pic).metadata();
@@ -123,8 +140,8 @@ async function make(file) {
                 fontSize: 16,
                 anchor: 'top',
                 attributes: {
+                    stroke: 'white',
                     fill: 'white',
-                    stroke: 'black',
                 },
             });
             const txt = sharp(Buffer.from(svg));
