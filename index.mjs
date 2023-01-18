@@ -17,11 +17,8 @@ function sec2str(s) {
     s -= h * 3600;
     const m = Math.floor(s / 60);
     s -= m * 60;
-    const [a, b] = `${s}`.split('.');
-    const r =
-        [h, m, a].map((item) => ('' + item).padStart(2, '0')).join(':') +
-        '.' +
-        (b || '0').substring(0, 3).padEnd(3, '0');
+    const [a, _] = `${s}`.split('.');
+    const r = [h, m, a].map((item) => ('' + item).padStart(2, '0')).join(':');
     return r;
 }
 
@@ -137,7 +134,7 @@ async function make(file, bar, bars) {
             const svg = tts.getSVG(pics[i].ts, {
                 x: 0,
                 y: 0,
-                fontSize: 16,
+                fontSize: 20,
                 anchor: 'top',
                 attributes: {
                     stroke: 'white',
