@@ -1,6 +1,6 @@
 {
     "name": "mvtb",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "MoVie ThumBnail maker",
     "main": "index.mjs",
     "author": "LG",

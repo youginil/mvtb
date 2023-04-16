@@ -30,7 +30,7 @@ program
     .option(
         '-e, --ext <string>',
         'file extensions, split by |',
-        'avi|wmv|mp4|mov|rmvb'
+        'avi|wmv|mp4|mov|rmvb|mkv|m4v|flv|3gp'
     )
     .option('-R, --row <number>', 'thumb rows', 4)
     .option('-C, --column <number>', 'thumb columns', 4)
