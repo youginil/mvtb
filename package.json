@@ -1,9 +1,9 @@
 {
     "name": "mvtb",
-    "version": "1.0.2",
+    "version": "1.0.4",
     "description": "MoVie ThumBnail maker",
     "main": "index.mjs",
-    "author": "LG",
+    "author": "youginil",
     "repository": {
         "type": "https",
         "url": "https://github.com/lgyin/mvtb"
@@ -12,11 +12,11 @@
         "mvtb": "index.mjs"
     },
     "dependencies": {
+        "canvas": "^2.11.2",
         "chalk": "^5.0.1",
         "cli-progress": "^3.11.2",
-        "commander": "^9.4.0",
-        "sharp": "0.31.0",
-        "text-to-svg": "^3.1.5"
+        "commander": "^10.0.1",
+        "sharp": "^0.32.1"
     },
     "devDependencies": {
         "prettier": "^2.7.1"
@@ -24,6 +24,6 @@
     "keywords": [
         "thumb"
     ],
-    "homepage": "https://github.com/lgyin/mvtb#readme",
+    "homepage": "https://github.com/youginil/mvtb#readme",
     "license": "Apache-2.0"
 }
