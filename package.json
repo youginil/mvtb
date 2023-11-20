@@ -15,11 +15,11 @@
         "canvas": "^2.11.2",
         "chalk": "^5.0.1",
         "cli-progress": "^3.11.2",
-        "commander": "^10.0.1",
+        "commander": "^11.1.0",
         "sharp": "^0.32.1"
     },
     "devDependencies": {
-        "prettier": "^2.7.1"
+        "prettier": "^3.1.0"
     },
     "keywords": [
         "thumb"
